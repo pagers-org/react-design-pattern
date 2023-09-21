@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
+import { Mediator } from './mediator.ts';
 
-export const Counter = ({ mediator }) => {
+type CounterProps = {
+  mediator: Mediator;
+};
+
+export const Counter = ({ mediator }: CounterProps) => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {

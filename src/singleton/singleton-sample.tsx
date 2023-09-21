@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import singletonHOC from './singleton-hoc';
 import Counter from './counter';
 
@@ -10,7 +10,7 @@ export const SingletonSample = () => {
   const [mounted3, setMounted3] = useState(false);
 
   return (
-    <Fragment>
+    <div>
       <button onClick={() => setMounted1((mounted) => !mounted)}>
         {mounted1 ? 'Unmount' : 'Mount'}
       </button>
@@ -24,6 +24,6 @@ export const SingletonSample = () => {
       {mounted1 && <SingletonCounter />}
       {mounted2 && <SingletonCounter />}
       {mounted3 && <SingletonCounter />}
-    </Fragment>
+    </div>
   );
 };

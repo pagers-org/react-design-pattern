@@ -1,28 +1,26 @@
 import { useEffect, createElement } from 'react';
 import ReactDOM, { Root } from 'react-dom/client';
 
-const singletonHOC = (component) => {
-  function Wrapper(props) {
+type WrapperFunc = {
+  (props: Record<PropertyKey, unknown>): null;
+  refCount: number;
+  container?: HTMLDivElement;
+};
+
+const singletonHOC = (component: Parameters<typeof createElement>[0]) => {
+  const Wrapper: WrapperFunc = (props: Record<PropertyKey, unknown>) => {
     let $parentDOM: Root | null = null;
-    // This is asynchronous, maybe look for synchronous way ?
+
     useEffect(() => {
       if (Wrapper.refCount === 0) {
-        // first instance - initialize
-
-        /*
-         * This can be also a param to HOC ? or any instance ?
-         */
         Wrapper.container = document.createElement('div');
         document.body.appendChild(Wrapper.container);
 
         const reactElement = createElement(component, props);
 
-        /*
-         * Creating additional react tree seems to be the way for the singleton
-         * component to keep its internal state throughout its whole life,
-         * and not forcing e.g. the first instance to be always present in vdom.
-         */
-        $parentDOM = ReactDOM.createRoot(Wrapper.container).render(reactElement);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        $parentDOM = ReactDOM.createRoot(Wrapper.container);
+        $parentDOM.render(reactElement);
       }
 
       Wrapper.refCount++;
@@ -30,9 +28,7 @@ const singletonHOC = (component) => {
       console.log(`Mounted singleton instance, ref count is ${Wrapper.refCount}.`);
 
       return () => {
-        if (Wrapper.refCount === 1) {
-          // last instance - destroy
-
+        if (Wrapper.refCount === 1 && Wrapper.container) {
           $parentDOM?.unmount();
           document.body.removeChild(Wrapper.container);
         }
@@ -44,7 +40,7 @@ const singletonHOC = (component) => {
     }, []);
 
     return null;
-  }
+  };
 
   Wrapper.refCount = 0;
 

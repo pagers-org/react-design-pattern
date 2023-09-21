@@ -1,11 +1,11 @@
 export class Mediator {
-  handles = [];
+  handles: { increment: () => void }[] = [];
 
   constructor() {
-    console.log('generated');
+    console.log('Generated to Mediator');
   }
 
-  register(handle) {
+  register(handle: { increment: () => void }) {
     this.handles.push(handle);
   }
 

@@ -1,6 +1,6 @@
-import { forwardRef, useState, useImperativeHandle, createRef, Fragment } from 'react';
+import { forwardRef, useState, useImperativeHandle, createRef } from 'react';
 
-const Counter = forwardRef((props, ref) => {
+const Counter = forwardRef((_, ref) => {
   const [count, setCount] = useState(0);
 
   useImperativeHandle(ref, () => ({
@@ -8,7 +8,7 @@ const Counter = forwardRef((props, ref) => {
       console.log('Created memento with count ' + count);
       return { count };
     },
-    restore: (memento) => {
+    restore: (memento: { count: number }) => {
       console.log('Restored memento');
       setCount(memento.count);
     },
@@ -26,16 +26,37 @@ const Counter = forwardRef((props, ref) => {
 
 Counter.displayName = 'Counter';
 
+type MementoRefTypes = {
+  createMemento: () => { count: number };
+  restore: (memento: { count: number }) => void;
+};
+
 export const MementoSample = () => {
-  const ref = createRef();
-  const [memento, setMemento] = useState();
+  const mementoRef = createRef<MementoRefTypes>();
+  const [memento, setMemento] = useState<{ count: number }>({ count: 0 });
+
+  const handleCreateMemento = () => {
+    if (!mementoRef.current) {
+      return;
+    }
+
+    setMemento(mementoRef.current.createMemento());
+  };
+
+  const handleRestoreMemento = () => {
+    if (!mementoRef.current) {
+      return;
+    }
+
+    mementoRef.current.restore(memento);
+  };
 
   return (
-    <Fragment>
-      <Counter ref={ref} />
+    <div>
+      <Counter ref={mementoRef} />
 
-      <button onClick={() => setMemento(ref.current.createMemento())}>Create memento</button>
-      <button onClick={() => ref.current.restore(memento)}>Restore memento</button>
-    </Fragment>
+      <button onClick={handleCreateMemento}>Create memento</button>
+      <button onClick={handleRestoreMemento}>Restore memento</button>
+    </div>
   );
 };
