@@ -1,0 +1,58 @@
+{
+  "name": "react-design-pattern",
+  "private": true,
+  "packageManager": "pnpm@8.2.0",
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=7"
+  },
+  "version": "0.0.0",
+  "description": "리액트에 적용하는 GoF 디자인 패턴",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pagers-org/react-design-pattern.git"
+  },
+  "keywords": [
+    "design-pattern",
+    "react",
+    "pagers"
+  ],
+  "author": {
+    "name": "InSeong-So",
+    "email": "goflvhxj2547@gmail.com",
+    "url": "https://github.com/inseong-so"
+  },
+  "devEngines": {
+    "node": "16.x || 18.x || 19.x || 20.x"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/pagers-org/react-design-pattern/issues"
+  },
+  "homepage": "https://github.com/pagers-org/react-design-pattern#readme",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.4.4",
+    "@types/react": "^18.2.22",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "@vitejs/plugin-react": "^4.0.4",
+    "eslint": "^8.45.0",
+    "eslint-config-next": "^13.4.12",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-unicorn": "^48.0.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9"
+  }
+}
